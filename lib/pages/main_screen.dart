@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:travel_guide/pages/explore_page.dart';
 import 'package:travel_guide/pages/fovorite_page.dart';
 import 'package:travel_guide/pages/home_page.dart';
+import 'package:travel_guide/pages/profile_page.dart';
 import 'package:travel_guide/themes/constants.dart';
 
 class MainPage extends StatefulWidget {
@@ -15,25 +16,27 @@ class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
   final List<Widget> _children = const [
     HomePage(),
-    FavoritePage(),
     ExplorePage(),
+    FavoritePage(),
+    ProfilePage(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.vertical(
           top: Radius.circular(30),
         ),
         child: BottomNavigationBar(
           onTap: (index) => setState(() => _currentIndex = index),
+          type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.white,
           showSelectedLabels: false,
           showUnselectedLabels: false,
           currentIndex: _currentIndex,
           unselectedItemColor: Colors.grey[300],
           selectedItemColor: primaryColor,
+          elevation: 0,
           items: const [
             BottomNavigationBarItem(
               icon: Icon(
@@ -43,15 +46,23 @@ class _MainPageState extends State<MainPage> {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_rounded, size: 30),
-              label: "Heart",
+              icon: Icon(
+                Icons.explore,
+                size: 30,
+              ),
+              label: 'Explore',
             ),
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.explore,
-                  size: 30,
-                ),
-                label: 'Explore'),
+              icon: Icon(Icons.bookmark, size: 30),
+              label: "Favorite",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+                size: 30,
+              ),
+              label: 'Profile',
+            ),
           ],
         ),
       ),

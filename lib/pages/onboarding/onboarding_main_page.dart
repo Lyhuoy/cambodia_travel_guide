@@ -20,6 +20,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           PageView(
@@ -40,7 +41,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
             ],
           ),
           Container(
-            alignment: const Alignment(0, 0.65),
+            alignment: const Alignment(0, 0.69),
             child: SmoothPageIndicator(
               controller: _pageController,
               count: 3,
@@ -48,8 +49,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
               effect: ExpandingDotsEffect(
                 dotColor: Colors.grey,
                 activeDotColor: primaryColor,
-                dotHeight: 10,
-                dotWidth: 10,
+                dotHeight: 12,
+                dotWidth: 12,
               ),
             ),
           ),
@@ -61,19 +62,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 child: GestureDetector(
                   onTap: () {
                     if (_pageController.page == 2) {
-                      Navigator.pushReplacementNamed(context, '/main');
+                      Navigator.pushReplacementNamed(context, '/auth');
                     } else {
-                      _pageController.animateToPage(_pageController.page!.toInt() + 1, duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
+                      _pageController.animateToPage(_pageController.page!.toInt() + 1, duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
                     }
                   },
                   child: Container(
                     width: double.infinity,
-                    height: 50,
+                    height: 55,
                     decoration: BoxDecoration(
                       color: primaryColor,
                       boxShadow: [
                         BoxShadow(
-                          color: primaryColor.withOpacity(0.7),
+                          color: primaryColor.withOpacity(0.3),
                           blurRadius: 15.0,
                           offset: const Offset(0, 10),
                         ),

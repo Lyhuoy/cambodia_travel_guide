@@ -9,28 +9,32 @@ class IntroPage3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         children: [
-          Image.asset('assets/images/art66.jpeg', width: double.infinity, height: 550, fit: BoxFit.cover),
+          Padding(
+            padding: const EdgeInsets.only(top: 130.0),
+            child: Image.asset('assets/images/art90.jpeg', width: 350, height: 350, fit: BoxFit.cover),
+          ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.white.withOpacity(0.9),
-                  blurRadius: 40.0,
-                  offset: const Offset(
-                    0,
-                    -70,
-                  ),
+            decoration: const BoxDecoration(
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Colors.white.withOpacity(0.9),
+                //     blurRadius: 40.0,
+                //     offset: const Offset(
+                //       0,
+                //       -70,
+                //     ),
+                //   ),
+                // ],
                 ),
-              ],
-            ),
             child: Column(
               children: [
-                FadeInLeft(
+                FadeInRight(
                   child: Text(
-                    'Found your place',
+                    'Captivating Cambodia',
                     style: GoogleFonts.aBeeZee(
                       textStyle: TextStyle(color: primaryColor, letterSpacing: .5, fontSize: 30, fontWeight: FontWeight.bold),
                     ),
@@ -41,7 +45,7 @@ class IntroPage3 extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: Text(
-                      'Found the best places to visit and enjoy the nature',
+                      "Immerse in the allure of Cambodia's ancient wonders and modern charm, crafted for both locals and intrepid adventurers",
                       style: GoogleFonts.aBeeZee(
                         textStyle: const TextStyle(color: Colors.grey, letterSpacing: .5, fontSize: 16, fontWeight: FontWeight.w500),
                       ),

@@ -9,26 +9,30 @@ class IntroPage1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         children: [
-          Image.asset('assets/images/art21.jpeg', width: double.infinity, height: 550, fit: BoxFit.cover),
+          Padding(
+            padding: const EdgeInsets.only(top: 130.0),
+            child: Image.asset('assets/images/art89.jpeg', width: 350, height: 350, fit: BoxFit.cover),
+          ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.white.withOpacity(0.9),
-                  blurRadius: 40.0,
-                  offset: const Offset(
-                    0,
-                    -70,
-                  ),
+            decoration: const BoxDecoration(
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Colors.white.withOpacity(0.9),
+                //     blurRadius: 40.0,
+                //     offset: const Offset(
+                //       0,
+                //       -70,
+                //     ),
+                //   ),
+                // ],
                 ),
-              ],
-            ),
             child: Column(
               children: [
-                FadeInLeft(
+                FadeInRight(
                   child: Text(
                     'Explore a New World',
                     style: GoogleFonts.aBeeZee(
