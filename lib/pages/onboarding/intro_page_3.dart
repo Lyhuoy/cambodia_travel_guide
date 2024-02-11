@@ -14,10 +14,10 @@ class IntroPage3 extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 130.0),
-            child: Image.asset('assets/images/art90.jpeg', width: 350, height: 350, fit: BoxFit.cover),
+            child: Image.asset('assets/images/art109.jpeg', width: 350, height: 350, fit: BoxFit.cover),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             decoration: const BoxDecoration(
                 // boxShadow: [
                 //   BoxShadow(
@@ -34,7 +34,7 @@ class IntroPage3 extends StatelessWidget {
               children: [
                 FadeInRight(
                   child: Text(
-                    'Captivating Cambodia',
+                    'Plan a Trip',
                     style: GoogleFonts.aBeeZee(
                       textStyle: TextStyle(color: primaryColor, letterSpacing: .5, fontSize: 30, fontWeight: FontWeight.bold),
                     ),
@@ -45,7 +45,7 @@ class IntroPage3 extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: Text(
-                      "Immerse in the allure of Cambodia's ancient wonders and modern charm, crafted for both locals and intrepid adventurers",
+                      "Plan your trip to the places you want to visit and explore the world's most beautiful places.",
                       style: GoogleFonts.aBeeZee(
                         textStyle: const TextStyle(color: Colors.grey, letterSpacing: .5, fontSize: 16, fontWeight: FontWeight.w500),
                       ),

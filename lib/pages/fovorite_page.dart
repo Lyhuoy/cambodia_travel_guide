@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_guide/models/place_model.dart';
+import 'package:travel_guide/provider/place_provider.dart';
 import 'package:travel_guide/widgets/favorite_place_tile.dart';
 
 class FavoritePage extends StatelessWidget {
@@ -9,17 +10,19 @@ class FavoritePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final placesProvider = Provider.of<PlacesProvider>(context);
+    final placesProvider = Provider.of<TravelProvider>(context);
     final favoritePlaces = placesProvider.favoritePlaces;
     if (favoritePlaces.isEmpty) {
       return Scaffold(
         backgroundColor: Colors.grey.shade100,
         body: Center(
-          child: Text(
-            'You have no favorite places yet.',
-            style: GoogleFonts.aBeeZee(
-              textStyle: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+          child: Lottie.asset(
+            'assets/lotties/empty2.json',
+            height: 200,
+            width: 200,
+            fit: BoxFit.contain,
+            filterQuality: FilterQuality.high,
+            frameRate: FrameRate.max,
           ),
         ),
       );

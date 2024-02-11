@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_guide/models/place_model.dart';
-import 'package:travel_guide/widgets/nearly_place_tile.dart';
+import 'package:travel_guide/models/upcoming_event_model.dart';
+import 'package:travel_guide/provider/place_provider.dart';
+import 'package:travel_guide/widgets/category_tile.dart';
 import 'package:travel_guide/widgets/top_recommendation_tile.dart';
 import 'package:travel_guide/widgets/upcoming_event_tile.dart';
 
@@ -11,8 +14,9 @@ class ExplorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final placesProvider = Provider.of<PlacesProvider>(context);
-    final places = placesProvider.places;
+    final placesProvider = Provider.of<TravelProvider>(context);
+    final upcomingEvents = placesProvider.upcomingEvents;
+
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
@@ -22,16 +26,16 @@ class ExplorePage extends StatelessWidget {
             children: [
               const ExploreHeader(),
               const SizedBox(height: 20.0),
-              const NearlyPlaceTitle(),
-              const SizedBox(height: 20.0),
-              NearlyPlaceWidget(places: places),
+              const CategoryTitle(),
+              const SizedBox(height: 10.0),
+              const CategoryWidget(),
               const SizedBox(height: 20.0),
               const TopRecommendationTitle(),
-              const SizedBox(height: 20.0),
-              TopPlaceRecommendationWidget(places: places),
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 10.0),
+              TopPlaceRecommendationWidget(places: placesProvider.recommendedPlaces),
+              const SizedBox(height: 10.0),
               const UpcomingEventTitle(),
-              UpcomingEventWidget(places: places),
+              UpcomingEventWidget(upcomingEvent: upcomingEvents),
             ],
           ),
         ),
@@ -58,7 +62,9 @@ class UpcomingEventTitle extends StatelessWidget {
           ),
           Text(
             'See all',
-            style: GoogleFonts.aBeeZee(fontSize: 20, color: Colors.grey.shade600),
+            style: GoogleFonts.aBeeZee(
+              textStyle: TextStyle(color: Colors.grey[500], fontSize: 16, fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),
@@ -84,7 +90,9 @@ class TopRecommendationTitle extends StatelessWidget {
           ),
           Text(
             'See all',
-            style: GoogleFonts.aBeeZee(fontSize: 20, color: Colors.grey.shade600),
+            style: GoogleFonts.aBeeZee(
+              textStyle: TextStyle(color: Colors.grey[500], fontSize: 16, fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),
@@ -92,8 +100,8 @@ class TopRecommendationTitle extends StatelessWidget {
   }
 }
 
-class NearlyPlaceTitle extends StatelessWidget {
-  const NearlyPlaceTitle({
+class CategoryTitle extends StatelessWidget {
+  const CategoryTitle({
     super.key,
   });
 
@@ -102,7 +110,7 @@ class NearlyPlaceTitle extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Text(
-        'Nearly Places',
+        'Discover',
         style: GoogleFonts.aBeeZee(fontSize: 20, fontWeight: FontWeight.bold),
       ),
     );
@@ -112,10 +120,10 @@ class NearlyPlaceTitle extends StatelessWidget {
 class UpcomingEventWidget extends StatelessWidget {
   const UpcomingEventWidget({
     super.key,
-    required this.places,
+    required this.upcomingEvent,
   });
 
-  final List<Places> places;
+  final List<UpcomingEvent> upcomingEvent;
 
   @override
   Widget build(BuildContext context) {
@@ -123,13 +131,13 @@ class UpcomingEventWidget extends StatelessWidget {
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: 5,
+      itemCount: upcomingEvent.length,
       itemBuilder: (context, index) {
         return Padding(
-          padding: EdgeInsets.only(top: index == 0 ? 20 : 15.0, left: 20.0, right: 20.0, bottom: 4 == index ? 15.0 : 0),
+          padding: EdgeInsets.only(top: index == 0 ? 10 : 15.0, left: 20.0, right: 20.0, bottom: 4 == index ? 15.0 : 0),
           child: Row(
             children: [
-              UpComingEventTile(trendingEvents: places[index]),
+              UpComingEventTile(upcomingEvent: upcomingEvent[index]),
             ],
           ),
         );
@@ -144,7 +152,7 @@ class TopPlaceRecommendationWidget extends StatelessWidget {
     required this.places,
   });
 
-  final List<Places> places;
+  final List<Place> places;
 
   @override
   Widget build(BuildContext context) {
@@ -168,31 +176,35 @@ class TopPlaceRecommendationWidget extends StatelessWidget {
   }
 }
 
-class NearlyPlaceWidget extends StatelessWidget {
-  const NearlyPlaceWidget({
+class CategoryWidget extends StatelessWidget {
+  const CategoryWidget({
     super.key,
-    required this.places,
   });
-
-  final List<Places> places;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 110.0,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: places.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: EdgeInsets.only(left: index == 0 ? 20 : 12.0),
-            child: Row(
-              children: [
-                NearlyPlaceTile(nearlyPlace: places[index]),
-              ],
-            ),
-          );
-        },
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CategoryTile(
+            category: 'Nature',
+            icon: FontAwesomeIcons.tree,
+          ),
+          CategoryTile(
+            category: 'Beach',
+            icon: FontAwesomeIcons.umbrellaBeach,
+          ),
+          CategoryTile(
+            category: 'Mountain',
+            icon: FontAwesomeIcons.mountain,
+          ),
+          CategoryTile(
+            category: 'City',
+            icon: FontAwesomeIcons.city,
+          ),
+        ],
       ),
     );
   }
