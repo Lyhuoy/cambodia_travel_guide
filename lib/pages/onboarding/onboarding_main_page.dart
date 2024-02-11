@@ -15,7 +15,7 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
-  final PageController _pageController = PageController(initialPage: 0);
+  final PageController _pageController = PageController(initialPage: 0, keepPage: true);
   bool onLastPage = false;
   @override
   Widget build(BuildContext context) {
@@ -24,6 +24,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       body: Stack(
         children: [
           PageView(
+            scrollDirection: Axis.horizontal,
             controller: _pageController,
             onPageChanged: (index) {
               setState(() {
@@ -62,7 +63,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 child: GestureDetector(
                   onTap: () {
                     if (_pageController.page == 2) {
-                      Navigator.pushReplacementNamed(context, '/auth');
+                      Navigator.pushReplacementNamed(context, '/main');
                     } else {
                       _pageController.animateToPage(_pageController.page!.toInt() + 1, duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
                     }

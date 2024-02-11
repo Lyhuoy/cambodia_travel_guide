@@ -17,7 +17,7 @@ class IntroPage1 extends StatelessWidget {
             child: Image.asset('assets/images/art89.jpeg', width: 350, height: 350, fit: BoxFit.cover),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             decoration: const BoxDecoration(
                 // boxShadow: [
                 //   BoxShadow(
@@ -34,7 +34,7 @@ class IntroPage1 extends StatelessWidget {
               children: [
                 FadeInRight(
                   child: Text(
-                    'Explore a New World',
+                    "Let's Travel",
                     style: GoogleFonts.aBeeZee(
                       textStyle: TextStyle(color: primaryColor, letterSpacing: .5, fontSize: 30, fontWeight: FontWeight.bold),
                     ),
@@ -45,7 +45,7 @@ class IntroPage1 extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: Text(
-                      'Find a place for travel, camping and hiking. Relax your mind and enjoy the nature.',
+                      'Travel to the most beautiful places in the world with us. We will help you to find the best places to visit.',
                       style: GoogleFonts.aBeeZee(
                         textStyle: const TextStyle(color: Colors.grey, letterSpacing: .5, fontSize: 16, fontWeight: FontWeight.w500),
                       ),

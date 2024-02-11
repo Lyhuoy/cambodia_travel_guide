@@ -1,34 +1,87 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_guide/models/place_model.dart';
+import 'package:travel_guide/models/upcoming_event_model.dart';
+import 'package:travel_guide/pages/explore_page.dart';
+import 'package:travel_guide/provider/place_provider.dart';
 import 'package:travel_guide/themes/constants.dart';
+import 'package:travel_guide/widgets/category_tile.dart';
 import 'package:travel_guide/widgets/my_textfield.dart';
 import 'package:travel_guide/widgets/place_tile.dart';
+import 'package:travel_guide/widgets/upcoming_event_tile.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = Provider.of<TravelProvider>(context, listen: false);
+      provider.fetchPopularPlace();
+      provider.fetchRecommendedPlace();
+      provider.fetchUpcomingEvent();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final placesProvider = Provider.of<PlacesProvider>(context);
-    final places = placesProvider.places;
+    final provider = Provider.of<TravelProvider>(context);
+    final popularPlaces = provider.popularPlaces;
+    final recommendedPlaces = provider.recommendedPlaces;
+    final upcomingEvents = provider.upcomingEvents;
+
     return Scaffold(
       backgroundColor: colorBackground,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const Header(),
-              const SearchBar(),
-              const ExploreCard(),
-              const PopularPlaceTitle(),
-              PopularPlace(places: places),
-            ],
-          ),
-        ),
-      ),
+      body: provider.isPopularPlaceLoading || provider.isRecommendedPlaceLoading || provider.isUpcomingEventLoading
+          ? Center(
+              child: Lottie.asset(
+                'assets/lotties/loading2.json',
+                height: 400,
+                width: 400,
+                frameRate: FrameRate.max,
+              ),
+            )
+          : SafeArea(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Header(),
+                    const SearchBar(),
+                    const ExploreCard(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Text(
+                        'Discover',
+                        style: GoogleFonts.aBeeZee(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(height: 10.0),
+                    const CategoryWidget(),
+                    const SizedBox(height: 10.0),
+                    const PopularPlaceTitle(),
+                    PopularPlace(popularPlace: popularPlaces),
+                    const SizedBox(height: 10.0),
+                    const TopRecommendationTitle(),
+                    const SizedBox(height: 10.0),
+                    TopPlaceRecommendationWidget(places: recommendedPlaces),
+                    const SizedBox(height: 10.0),
+                    const UpcomingEventTitle(),
+                    UpcomingEventWidget(upcomingEvents: upcomingEvents),
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }
@@ -47,14 +100,12 @@ class PopularPlaceTitle extends StatelessWidget {
         children: [
           Text(
             'Popular Places',
-            style: GoogleFonts.aBeeZee(
-              textStyle: TextStyle(color: Colors.grey[700], fontSize: 17, fontWeight: FontWeight.bold),
-            ),
+            style: GoogleFonts.aBeeZee(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           Text(
             'See All',
             style: GoogleFonts.aBeeZee(
-              textStyle: TextStyle(color: Colors.grey[500], fontSize: 17, fontWeight: FontWeight.bold),
+              textStyle: TextStyle(color: Colors.grey[500], fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
         ],
@@ -66,26 +117,27 @@ class PopularPlaceTitle extends StatelessWidget {
 class PopularPlace extends StatelessWidget {
   const PopularPlace({
     super.key,
-    required this.places,
+    required this.popularPlace,
   });
 
-  final List<Places> places;
+  final List<Place> popularPlace;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 290,
+      height: 255,
       width: double.infinity,
       child: ListView.builder(
         clipBehavior: Clip.none,
         scrollDirection: Axis.horizontal,
-        itemCount: places.length,
+        itemCount: popularPlace.length,
         itemBuilder: (context, int index) {
           return PlaceTile(
-            key: UniqueKey(),
-            places: places[index],
+            key: ValueKey(popularPlace[index].id),
+            place: popularPlace[index],
             index: index,
-            placesLength: places.length,
+            placesLength: popularPlace.length,
+            id: popularPlace[index].id,
           );
         },
       ),
@@ -109,9 +161,9 @@ class ExploreCard extends StatelessWidget {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: primaryColor.withOpacity(0.4),
-              blurRadius: 15.0,
-              offset: const Offset(0, 10),
+              color: Colors.grey.withOpacity(0.2),
+              blurRadius: 30.0,
+              offset: const Offset(0, 3),
             ),
           ],
         ),
@@ -137,13 +189,6 @@ class ExploreCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: primaryColor,
                       borderRadius: BorderRadius.circular(50),
-                      boxShadow: [
-                        BoxShadow(
-                          color: primaryColor.withOpacity(0.7),
-                          blurRadius: 15.0,
-                          offset: const Offset(0, 10),
-                        ),
-                      ],
                     ),
                     child: Center(
                       child: Text(
@@ -218,40 +263,133 @@ class Header extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          FadeInLeft(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FadeInLeft(
-                  child: Text(
-                    'Hi, Group1👋',
-                    style: GoogleFonts.aBeeZee(
-                      textStyle: const TextStyle(color: Colors.grey, fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Hi, Group1👋',
+                style: GoogleFonts.aBeeZee(
+                  textStyle: const TextStyle(color: Colors.grey, fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                Text(
-                  'Lets go travel 🏕️',
-                  style: GoogleFonts.aBeeZee(
-                    textStyle: TextStyle(color: Colors.grey[700], fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
+              ),
+              Text(
+                'Lets go travel 🏕️',
+                style: GoogleFonts.aBeeZee(
+                  textStyle: TextStyle(color: Colors.grey[700], fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          FadeInRight(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(50),
-              child: Image.asset(
-                'assets/images/profile.jpeg',
-                height: 60,
-                width: 60,
-                fit: BoxFit.cover,
+          Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              border: Border.all(
+                color: Colors.grey,
+              ),
+              color: Colors.white,
+            ),
+            child: const Center(
+              child: FaIcon(
+                FontAwesomeIcons.bell,
+                size: 25.0,
               ),
             ),
           )
         ],
       ),
+    );
+  }
+}
+
+class CategoryWidget extends StatelessWidget {
+  const CategoryWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CategoryTile(
+            category: 'Nature',
+            icon: FontAwesomeIcons.tree,
+          ),
+          CategoryTile(
+            category: 'Beach',
+            icon: FontAwesomeIcons.umbrellaBeach,
+          ),
+          CategoryTile(
+            category: 'Mountain',
+            icon: FontAwesomeIcons.mountain,
+          ),
+          CategoryTile(
+            category: 'City',
+            icon: FontAwesomeIcons.city,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TopRecommendationTitle extends StatelessWidget {
+  const TopRecommendationTitle({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Top Recommendations',
+            style: GoogleFonts.aBeeZee(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            'See all',
+            style: GoogleFonts.aBeeZee(
+              textStyle: TextStyle(color: Colors.grey[500], fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class UpcomingEventWidget extends StatelessWidget {
+  const UpcomingEventWidget({
+    super.key,
+    required this.upcomingEvents,
+  });
+
+  final List<UpcomingEvent> upcomingEvents;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: upcomingEvents.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: EdgeInsets.only(top: index == 0 ? 10 : 15.0, left: 20.0, right: 20.0, bottom: 4 == index ? 15.0 : 0),
+          child: Row(
+            children: [
+              UpComingEventTile(upcomingEvent: upcomingEvents[index]),
+            ],
+          ),
+        );
+      },
     );
   }
 }

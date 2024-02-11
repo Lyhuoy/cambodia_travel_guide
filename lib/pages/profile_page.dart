@@ -238,31 +238,103 @@ class Profile extends StatelessWidget {
     super.key,
   });
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const CircleAvatar(
-          radius: 40,
-          backgroundImage: AssetImage('assets/images/profile.jpeg'),
-        ),
-        const SizedBox(width: 15.0),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Best Group',
-              style: GoogleFonts.aBeeZee(
-                textStyle: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+  // confirm logout
+  void confirmLogout(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Logout',
+            style: GoogleFonts.aBeeZee(
+              textStyle: const TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            Text(
-              'Travel Enthusiast',
-              style: GoogleFonts.aBeeZee(
-                textStyle: const TextStyle(color: Colors.grey, fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          content: Text(
+            'Are you sure you want to logout?',
+            style: GoogleFonts.aBeeZee(
+              textStyle: TextStyle(color: Colors.grey.shade600),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/auth');
+              },
+              child: Text(
+                'Yes',
+                style: GoogleFonts.aBeeZee(
+                  textStyle: const TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                'No',
+                style: GoogleFonts.aBeeZee(
+                  textStyle: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
               ),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            const CircleAvatar(
+              radius: 35,
+              backgroundImage: AssetImage('assets/images/profile.jpeg'),
+            ),
+            const SizedBox(width: 15.0),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Jupapi Mupapi',
+                  style: GoogleFonts.aBeeZee(
+                    textStyle: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Text(
+                  'Crazy Traveler',
+                  style: GoogleFonts.aBeeZee(
+                    textStyle: const TextStyle(color: Colors.grey, fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        IconButton(
+          onPressed: () {
+            confirmLogout(context);
+          },
+          icon: Icon(
+            Icons.logout,
+            color: primaryColor,
+            size: 30,
+          ),
         ),
       ],
     );

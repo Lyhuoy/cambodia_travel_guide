@@ -5,10 +5,18 @@ packages:
     dependency: "direct main"
     description:
       name: animate_do
-      sha256: "7d176dee8acff0bcd298bef8e5520c25f93062fcac79b8d76b3f70dd263f0c5b"
+      sha256: "8a9d0f91d066d5f86bd9de9455e5741e6bbb284b114c76375f01584065dd3da1"
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.0"
+    version: "3.3.3"
+  archive:
+    dependency: transitive
+    description:
+      name: archive
+      sha256: "22600aa1e926be775fa5fe7e6894e7fb3df9efda8891c73f70fb3262399a432d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.4.10"
   async:
     dependency: transitive
     description:
@@ -49,6 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.18.0"
+  convert:
+    dependency: transitive
+    description:
+      name: convert
+      sha256: "0f08b14755d163f6e2134cb58222dd25ea2a2ee8a195e53983d57c075324d592"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.1"
   crypto:
     dependency: transitive
     description:
@@ -116,7 +132,7 @@ packages:
     source: hosted
     version: "6.1.0"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       sha256: a2bbf9d017fcced29139daa8ed2bba4ece450ab222871df93ca9eec6f80c34ba
@@ -131,6 +147,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  js:
+    dependency: transitive
+    description:
+      name: js
+      sha256: "4186c61b32f99e60f011f7160e32c89a758ae9b1d0c6d28e2c02ef0382300e2b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.0"
   lints:
     dependency: transitive
     description:
@@ -139,6 +163,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  lottie:
+    dependency: "direct main"
+    description:
+      name: lottie
+      sha256: "1f0ce68112072d66ea271a9841994fa8d16442e23d8cf8996c9fa74174e58b4e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   matcher:
     dependency: transitive
     description:
@@ -243,6 +275,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+  pointycastle:
+    dependency: transitive
+    description:
+      name: pointycastle
+      sha256: "43ac87de6e10afabc85c445745a7b799e04de84cebaa4fd7bf55a5e1e9604d29"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.7.4"
   provider:
     dependency: "direct main"
     description:
@@ -362,4 +402,4 @@ packages:
     version: "1.0.4"
 sdks:
   dart: ">=3.2.6 <4.0.0"
-  flutter: ">=3.10.0"
+  flutter: ">=3.16.0"

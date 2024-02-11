@@ -5,17 +5,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
-import 'package:travel_guide/models/place_model.dart';
+import 'package:travel_guide/models/upcoming_event_model.dart';
 import 'package:travel_guide/provider/place_provider.dart';
 import 'package:travel_guide/themes/constants.dart';
 
-class PlaceDetailScreen extends StatelessWidget {
-  const PlaceDetailScreen({super.key});
+class EventDetailPage extends StatelessWidget {
+  const EventDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final placesProvider = Provider.of<TravelProvider>(context);
-    final place = ModalRoute.of(context)!.settings.arguments as Place;
+    final upcomingEvent = ModalRoute.of(context)!.settings.arguments as UpcomingEvent;
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: Column(
@@ -34,11 +34,11 @@ class PlaceDetailScreen extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  PlaceImage(place: place, placesProvider: placesProvider),
+                  PlaceImage(upcomingEvent: upcomingEvent, placesProvider: placesProvider),
                   const SizedBox(
                     height: 20,
                   ),
-                  PlaceInfo(place: place, placesProvider: placesProvider),
+                  PlaceInfo(upcomingEvent: upcomingEvent, placesProvider: placesProvider),
                   const SizedBox(
                     height: 10.0,
                   ),
@@ -55,7 +55,7 @@ class PlaceDetailScreen extends StatelessWidget {
                   const SizedBox(
                     height: 10.0,
                   ),
-                  AboutPlace(place: place),
+                  AboutPlace(upcomingEvent: upcomingEvent),
                   const SizedBox(height: 20.0),
                   const Gallery(),
                   const SizedBox(
@@ -254,10 +254,10 @@ class Gallery extends StatelessWidget {
 class AboutPlace extends StatelessWidget {
   const AboutPlace({
     super.key,
-    required this.place,
+    required this.upcomingEvent,
   });
 
-  final Place place;
+  final UpcomingEvent upcomingEvent;
 
   @override
   Widget build(BuildContext context) {
@@ -276,7 +276,7 @@ class AboutPlace extends StatelessWidget {
             height: 5.0,
           ),
           ReadMoreText(
-            place.description,
+            upcomingEvent.description,
             style: GoogleFonts.aBeeZee(
               textStyle: TextStyle(color: Colors.grey.shade600, fontSize: 16),
             ),
@@ -296,11 +296,11 @@ class AboutPlace extends StatelessWidget {
 class PlaceInfo extends StatelessWidget {
   const PlaceInfo({
     super.key,
-    required this.place,
+    required this.upcomingEvent,
     required this.placesProvider,
   });
 
-  final Place place;
+  final UpcomingEvent upcomingEvent;
   final TravelProvider placesProvider;
 
   @override
@@ -308,39 +308,29 @@ class PlaceInfo extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            upcomingEvent.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.aBeeZee(
+              textStyle: const TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
+            ),
+          ),
+          const SizedBox(
+            height: 10.0,
+          ),
           Row(
             children: [
-              Text(
-                place.name,
-                style: GoogleFonts.aBeeZee(
-                  textStyle: const TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
-                ),
+              FaIcon(FontAwesomeIcons.locationDot, color: primaryColor, size: 20),
+              const SizedBox(
+                width: 10.0,
               ),
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 241, 187, 48).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.star,
-                      color: Color.fromARGB(255, 241, 187, 48),
-                      size: 20,
-                    ),
-                    const SizedBox(
-                      width: 3.0,
-                    ),
-                    Text(
-                      place.rating,
-                      style: GoogleFonts.aBeeZee(
-                        textStyle: const TextStyle(color: Colors.grey, fontSize: 16),
-                      ),
-                    ),
-                  ],
+              Text(
+                upcomingEvent.location,
+                style: GoogleFonts.aBeeZee(
+                  textStyle: const TextStyle(color: Colors.grey, fontSize: 16),
                 ),
               ),
             ],
@@ -350,34 +340,15 @@ class PlaceInfo extends StatelessWidget {
           ),
           Row(
             children: [
-              Row(
-                children: [
-                  FaIcon(FontAwesomeIcons.locationDot, color: primaryColor, size: 20),
-                  const SizedBox(
-                    width: 5.0,
-                  ),
-                  Text(
-                    place.location,
-                    style: GoogleFonts.aBeeZee(
-                      textStyle: const TextStyle(color: Colors.grey, fontSize: 16),
-                    ),
-                  ),
-                ],
+              FaIcon(FontAwesomeIcons.calendar, color: primaryColor, size: 16),
+              const SizedBox(
+                width: 10.0,
               ),
-              const Spacer(),
-              Row(
-                children: [
-                  const FaIcon(FontAwesomeIcons.comment, color: Colors.grey, size: 16),
-                  const SizedBox(
-                    width: 5.0,
-                  ),
-                  Text(
-                    place.review,
-                    style: GoogleFonts.aBeeZee(
-                      textStyle: const TextStyle(color: Colors.grey, fontSize: 16),
-                    ),
-                  ),
-                ],
+              Text(
+                upcomingEvent.date,
+                style: GoogleFonts.aBeeZee(
+                  textStyle: const TextStyle(color: Colors.grey, fontSize: 16),
+                ),
               ),
             ],
           ),
@@ -390,24 +361,24 @@ class PlaceInfo extends StatelessWidget {
 class PlaceImage extends StatelessWidget {
   const PlaceImage({
     super.key,
-    required this.place,
+    required this.upcomingEvent,
     required this.placesProvider,
   });
 
-  final Place place;
+  final UpcomingEvent upcomingEvent;
   final TravelProvider placesProvider;
 
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: place.image,
+      tag: upcomingEvent.image,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Container(
           height: 270,
           width: double.infinity,
           decoration: BoxDecoration(
-            image: DecorationImage(image: NetworkImage(place.image), fit: BoxFit.cover),
+            image: DecorationImage(image: NetworkImage(upcomingEvent.image), fit: BoxFit.cover),
             borderRadius: BorderRadius.circular(25),
             boxShadow: [
               BoxShadow(
@@ -434,12 +405,10 @@ class PlaceImage extends StatelessWidget {
                         BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                           child: IconButton(
-                            onPressed: () {
-                              placesProvider.toggleFavoriteStatus(place);
-                            },
-                            icon: Icon(
-                              placesProvider.isFavorite(place) ? Icons.favorite : Icons.favorite_border,
-                              color: placesProvider.isFavorite(place) ? Colors.red : Colors.white,
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.favorite_border,
+                              color: Colors.white,
                               size: 30,
                             ),
                           ),

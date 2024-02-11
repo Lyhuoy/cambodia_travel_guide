@@ -17,7 +17,7 @@ class IntroPage2 extends StatelessWidget {
             child: Image.asset('assets/images/art93.jpeg', width: 350, height: 350, fit: BoxFit.cover),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             decoration: const BoxDecoration(
                 // boxShadow: [
                 //   BoxShadow(
@@ -34,7 +34,7 @@ class IntroPage2 extends StatelessWidget {
               children: [
                 FadeInRight(
                   child: Text(
-                    'Cambodian Wonders',
+                    'Find Destinations',
                     style: GoogleFonts.aBeeZee(
                       textStyle: TextStyle(color: primaryColor, letterSpacing: .5, fontSize: 30, fontWeight: FontWeight.bold),
                     ),
@@ -45,7 +45,7 @@ class IntroPage2 extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: Text(
-                      "Explore Cambodia's cultural and natural wonders effortlessly with personalized recommendations on temples, markets, and more.",
+                      "Find the best destinations to visit and explore the world's most beautiful places.",
                       style: GoogleFonts.aBeeZee(
                         textStyle: const TextStyle(color: Colors.grey, letterSpacing: .5, fontSize: 16, fontWeight: FontWeight.w500),
                       ),

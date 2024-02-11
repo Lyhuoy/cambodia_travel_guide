@@ -17,6 +17,8 @@ dependencies:
   provider: ^6.1.1
   font_awesome_flutter: ^10.7.0
   readmore: ^2.2.0
+  http: ^1.2.0
+  lottie: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -29,6 +31,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/lotties/
 
   # example:
   # fonts:

@@ -3,17 +3,74 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_guide/models/place_model.dart';
-import 'package:travel_guide/themes/constants.dart';
+import 'package:travel_guide/provider/place_provider.dart';
 
 class FavoritePlaceTile extends StatelessWidget {
-  final Places favoritePlace;
+  final Place favoritePlace;
   final int favoritePlacesLength;
   final int index;
   const FavoritePlaceTile({super.key, required this.favoritePlace, required this.favoritePlacesLength, required this.index});
 
+  void confirmRemove(BuildContext context, Place favoritePlace) {
+    final placesProvider = Provider.of<TravelProvider>(context, listen: false);
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Remove Favorite',
+            style: GoogleFonts.aBeeZee(
+              textStyle: const TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          content: Text(
+            'Are you sure you want to remove this place from your favorite list?',
+            style: GoogleFonts.aBeeZee(
+              textStyle: TextStyle(color: Colors.grey.shade600),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                placesProvider.toggleFavoriteStatus(favoritePlace);
+                Navigator.pop(context);
+              },
+              child: Text(
+                'Yes',
+                style: GoogleFonts.aBeeZee(
+                  textStyle: const TextStyle(
+                    color: Colors.red,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                'No',
+                style: GoogleFonts.aBeeZee(
+                  textStyle: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final placesProvider = Provider.of<PlacesProvider>(context);
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, '/place-detail', arguments: favoritePlace);
@@ -45,7 +102,7 @@ class FavoritePlaceTile extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
-                        image: AssetImage(favoritePlace.image),
+                        image: NetworkImage(favoritePlace.image),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -106,14 +163,16 @@ class FavoritePlaceTile extends StatelessWidget {
                 ),
               ],
             ),
-            IconButton(
-              onPressed: () {
-                placesProvider.toggleFavoriteStatus(favoritePlace);
-              },
-              icon: Icon(
-                placesProvider.isFavorite(favoritePlace) ? Icons.favorite : Icons.favorite_border,
-                color: primaryColor,
-                size: 30,
+            Padding(
+              padding: const EdgeInsets.only(right: 5.0),
+              child: GestureDetector(
+                onTap: () {
+                  confirmRemove(context, favoritePlace);
+                },
+                child: const FaIcon(
+                  FontAwesomeIcons.trashCan,
+                  color: Colors.red,
+                ),
               ),
             ),
           ],
