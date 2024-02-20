@@ -320,7 +320,7 @@ class Header extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
               image: const DecorationImage(
-                image: AssetImage('assets/images/art101.jpeg'),
+                image: AssetImage('assets/images/profile2.jpeg'),
                 fit: BoxFit.cover,
               ),
             ),

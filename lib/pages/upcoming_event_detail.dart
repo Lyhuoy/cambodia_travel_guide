@@ -239,7 +239,7 @@ class Gallery extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
-                  image: AssetImage('assets/images/art${index + 70}.jpeg'),
+                  image: AssetImage('assets/images/art${index * 2 + 119}.jpeg'),
                   fit: BoxFit.cover,
                 ),
               ),
