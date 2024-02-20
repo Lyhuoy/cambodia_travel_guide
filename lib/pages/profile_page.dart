@@ -88,7 +88,7 @@ class Gallery extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(18),
                   image: DecorationImage(
-                    image: AssetImage('assets/images/art${index + 70}.jpeg'),
+                    image: AssetImage('assets/images/art${index + 73}.jpeg'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -293,7 +293,7 @@ class _ProfileState extends State<Profile> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/auth');
+                Navigator.pushReplacementNamed(context, '/login');
               },
               child: Text(
                 'Yes',
