@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_guide/provider/place_provider.dart';
 import 'package:travel_guide/themes/constants.dart';
@@ -238,7 +243,7 @@ class Interest extends StatelessWidget {
   }
 }
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({
     super.key,
     required this.wishListCount,
@@ -246,7 +251,24 @@ class Profile extends StatelessWidget {
 
   final int wishListCount;
 
-  // confirm logout
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  File? image;
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemp = File(image.path);
+      setState(() => this.image = imageTemp);
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  // image picker
   void confirmLogout(BuildContext context) {
     showDialog(
       context: context,
@@ -319,13 +341,74 @@ class Profile extends StatelessWidget {
             ),
           ],
         ),
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircleAvatar(
-              radius: 60,
-              backgroundImage: AssetImage('assets/images/profile2.jpeg'),
-            ),
+            image != null
+                ? Container(
+                    width: 120,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: FileImage(image!),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: primaryColor,
+                        ),
+                        child: GestureDetector(
+                          onTap: pickImage,
+                          child: const Center(
+                            child: FaIcon(
+                              FontAwesomeIcons.image,
+                              color: Colors.white,
+                              size: 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(
+                    width: 120,
+                    height: 120,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/profile2.jpeg'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: primaryColor,
+                        ),
+                        child: GestureDetector(
+                          onTap: pickImage,
+                          child: const Center(
+                            child: FaIcon(
+                              FontAwesomeIcons.image,
+                              color: Colors.white,
+                              size: 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
           ],
         ),
         const SizedBox(height: 20.0),
@@ -357,7 +440,7 @@ class Profile extends StatelessWidget {
                   style: TextStyle(color: Colors.grey, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  wishListCount.toString(),
+                  widget.wishListCount.toString(),
                   style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ],
