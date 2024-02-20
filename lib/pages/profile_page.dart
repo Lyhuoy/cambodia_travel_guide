@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:travel_guide/provider/place_provider.dart';
 import 'package:travel_guide/themes/constants.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -7,22 +10,24 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<TravelProvider>(context);
+    final wishListCount = provider.favoritePlacesCount;
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-      body: const SafeArea(
+      body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Profile(),
-                SizedBox(height: 20.0),
-                Bio(),
-                SizedBox(height: 20.0),
-                Interest(),
-                SizedBox(height: 20.0),
-                Gallery(),
+                Profile(wishListCount: wishListCount),
+                const SizedBox(height: 20.0),
+                const Bio(),
+                const SizedBox(height: 20.0),
+                const Interest(),
+                const SizedBox(height: 20.0),
+                const Gallery(),
               ],
             ),
           ),
@@ -236,7 +241,10 @@ class Interest extends StatelessWidget {
 class Profile extends StatelessWidget {
   const Profile({
     super.key,
+    required this.wishListCount,
   });
+
+  final int wishListCount;
 
   // confirm logout
   void confirmLogout(BuildContext context) {
@@ -297,45 +305,78 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            const CircleAvatar(
-              radius: 35,
-              backgroundImage: AssetImage('assets/images/profile.jpeg'),
+            IconButton(
+              onPressed: () {
+                confirmLogout(context);
+              },
+              icon: const Icon(CupertinoIcons.square_arrow_right, color: Colors.red, size: 30),
             ),
-            const SizedBox(width: 15.0),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          ],
+        ),
+        const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 60,
+              backgroundImage: AssetImage('assets/images/art101.jpeg'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20.0),
+        const Text(
+          'Lyhuoy',
+          style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 20.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const Column(
               children: [
                 Text(
-                  'Jupapi Mupapi',
-                  style: GoogleFonts.aBeeZee(
-                    textStyle: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
+                  'Places',
+                  style: TextStyle(color: Colors.grey, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  'Crazy Traveler',
-                  style: GoogleFonts.aBeeZee(
-                    textStyle: const TextStyle(color: Colors.grey, fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
+                  '10',
+                  style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            const SizedBox(width: 20.0),
+            Column(
+              children: [
+                const Text(
+                  'Wishlist',
+                  style: TextStyle(color: Colors.grey, fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  wishListCount.toString(),
+                  style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            const SizedBox(width: 20.0),
+            const Column(
+              children: [
+                Text(
+                  'Followers',
+                  style: TextStyle(color: Colors.grey, fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  '50',
+                  style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
           ],
-        ),
-        IconButton(
-          onPressed: () {
-            confirmLogout(context);
-          },
-          icon: Icon(
-            Icons.logout,
-            color: primaryColor,
-            size: 30,
-          ),
-        ),
+        )
       ],
     );
   }

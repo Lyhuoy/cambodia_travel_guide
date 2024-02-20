@@ -57,6 +57,7 @@ class PlaceDetailScreen extends StatelessWidget {
                   ),
                   AboutPlace(place: place),
                   const SizedBox(height: 20.0),
+                  const _ThingTodo(),
                   const Gallery(),
                   const SizedBox(
                     height: 20.0,
@@ -74,6 +75,168 @@ class PlaceDetailScreen extends StatelessWidget {
             ),
           ),
           const ExploreButton(),
+        ],
+      ),
+    );
+  }
+}
+
+class _ThingTodo extends StatelessWidget {
+  const _ThingTodo();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Things to do",
+            style: TextStyle(color: Colors.black, fontSize: 18),
+          ),
+          const SizedBox(
+            height: 10.0,
+          ),
+          Row(
+            children: [
+              FaIcon(
+                FontAwesomeIcons.mountain,
+                color: primaryColor,
+                size: 20,
+              ),
+              const SizedBox(
+                width: 10.0,
+              ),
+              Text(
+                "Seeing mountain view",
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10.0,
+          ),
+          Row(
+            children: [
+              FaIcon(
+                FontAwesomeIcons.campground,
+                color: primaryColor,
+                size: 20,
+              ),
+              const SizedBox(
+                width: 10.0,
+              ),
+              Text(
+                "Camping",
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
+              ),
+            ],
+          ),
+          // viewing sunset
+          const SizedBox(
+            height: 10.0,
+          ),
+          Row(
+            children: [
+              FaIcon(
+                FontAwesomeIcons.sun,
+                color: primaryColor,
+                size: 20,
+              ),
+              const SizedBox(
+                width: 10.0,
+              ),
+              Text(
+                "Viewing sunset",
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
+              ),
+            ],
+          ),
+          // having picnic
+          const SizedBox(
+            height: 10.0,
+          ),
+          Row(
+            children: [
+              FaIcon(
+                FontAwesomeIcons.utensils,
+                color: primaryColor,
+                size: 20,
+              ),
+              const SizedBox(
+                width: 10.0,
+              ),
+              Text(
+                "Having picnic",
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
+              ),
+            ],
+          ),
+          // hiking
+          const SizedBox(
+            height: 10.0,
+          ),
+          Row(
+            children: [
+              FaIcon(
+                FontAwesomeIcons.personHiking,
+                color: primaryColor,
+                size: 20,
+              ),
+              const SizedBox(
+                width: 10.0,
+              ),
+              Text(
+                "Hiking",
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
+              ),
+            ],
+          ),
+          // trekking
+          const SizedBox(
+            height: 10.0,
+          ),
+          Row(
+            children: [
+              FaIcon(
+                FontAwesomeIcons.route,
+                color: primaryColor,
+                size: 20,
+              ),
+              const SizedBox(
+                width: 10.0,
+              ),
+              Text(
+                "Trekking",
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
+              ),
+            ],
+          ),
+          // viewing sunrise
+          const SizedBox(
+            height: 10.0,
+          ),
+          Row(
+            children: [
+              FaIcon(
+                Icons.sunny,
+                color: primaryColor,
+                size: 20,
+              ),
+              const SizedBox(
+                width: 10.0,
+              ),
+              Text(
+                "Viewing sunrise",
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
+              ),
+            ],
+          ),
+
+          const SizedBox(
+            height: 20.0,
+          ),
         ],
       ),
     );
@@ -286,7 +449,7 @@ class AboutPlace extends StatelessWidget {
             trimExpandedText: 'Show less',
             moreStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: primaryColor),
             lessStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: primaryColor),
-          )
+          ),
         ],
       ),
     );
@@ -311,11 +474,18 @@ class PlaceInfo extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(
-                place.name,
-                style: GoogleFonts.aBeeZee(
-                  textStyle: const TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
-                ),
+              Column(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: Text(
+                      place.name,
+                      style: GoogleFonts.aBeeZee(
+                        textStyle: const TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const Spacer(),
               Container(
@@ -439,7 +609,7 @@ class PlaceImage extends StatelessWidget {
                             },
                             icon: Icon(
                               placesProvider.isFavorite(place) ? Icons.favorite : Icons.favorite_border,
-                              color: placesProvider.isFavorite(place) ? Colors.red : Colors.white,
+                              color: Colors.white,
                               size: 30,
                             ),
                           ),

@@ -310,12 +310,13 @@ class PlaceInfo extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            upcomingEvent.name,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.aBeeZee(
-              textStyle: const TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 1.5,
+            child: Text(
+              upcomingEvent.name,
+              style: GoogleFonts.aBeeZee(
+                textStyle: const TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
           const SizedBox(
@@ -371,7 +372,7 @@ class PlaceImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: upcomingEvent.image,
+      tag: '${upcomingEvent.image}${upcomingEvent.id}',
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Container(
@@ -405,9 +406,11 @@ class PlaceImage extends StatelessWidget {
                         BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                           child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.favorite_border,
+                            onPressed: () {
+                              placesProvider.toggleFavoriteEventStatus(upcomingEvent);
+                            },
+                            icon: Icon(
+                              placesProvider.isFavoriteEvent(upcomingEvent) ? Icons.favorite : Icons.favorite_border,
                               color: Colors.white,
                               size: 30,
                             ),
@@ -456,7 +459,7 @@ class PlaceDetailHeader extends StatelessWidget {
             ),
           ),
           Text(
-            'Place Detail',
+            'Event Detail',
             style: GoogleFonts.aBeeZee(
               textStyle: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
             ),

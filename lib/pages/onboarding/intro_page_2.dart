@@ -14,22 +14,10 @@ class IntroPage2 extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 130.0),
-            child: Image.asset('assets/images/art93.jpeg', width: 350, height: 350, fit: BoxFit.cover),
+            child: Image.asset('assets/images/art932.png', width: 350, height: 350, fit: BoxFit.cover),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            decoration: const BoxDecoration(
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.white.withOpacity(0.9),
-                //     blurRadius: 40.0,
-                //     offset: const Offset(
-                //       0,
-                //       -70,
-                //     ),
-                //   ),
-                // ],
-                ),
             child: Column(
               children: [
                 FadeInRight(

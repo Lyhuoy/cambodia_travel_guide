@@ -16,10 +16,10 @@ class UpComingEventTile extends StatelessWidget {
       child: Row(
         children: [
           Hero(
-            tag: upcomingEvent.image,
+            tag: '${upcomingEvent.image}${upcomingEvent.id}',
             child: Container(
               height: 85.0,
-              width: 130.0,
+              width: MediaQuery.of(context).size.width * 0.29,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(14.0),
                 image: DecorationImage(
@@ -33,9 +33,12 @@ class UpComingEventTile extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                upcomingEvent.name,
-                style: GoogleFonts.aBeeZee(fontSize: 16, fontWeight: FontWeight.bold),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.48,
+                child: Text(
+                  upcomingEvent.name,
+                  style: GoogleFonts.aBeeZee(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
               ),
               const SizedBox(height: 5.0),
               Row(

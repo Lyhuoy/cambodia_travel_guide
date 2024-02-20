@@ -55,13 +55,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void navigateToHome() {
-    Navigator.pushReplacementNamed(
-      context,
-      '/main',
-      arguments: {
-        'username': _usernameController.text,
-      },
-    );
+    Navigator.pushNamedAndRemoveUntil(context, "/main", (route) => false);
   }
 
   @override

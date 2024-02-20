@@ -63,7 +63,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 child: GestureDetector(
                   onTap: () {
                     if (_pageController.page == 2) {
-                      Navigator.pushReplacementNamed(context, '/main');
+                      Navigator.pushReplacementNamed(context, '/auth');
                     } else {
                       _pageController.animateToPage(_pageController.page!.toInt() + 1, duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
                     }

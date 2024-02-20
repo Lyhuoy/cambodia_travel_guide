@@ -112,10 +112,15 @@ class FavoritePlaceTile extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      favoritePlace.name,
-                      style: GoogleFonts.aBeeZee(
-                        textStyle: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      child: Text(
+                        favoritePlace.name,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: GoogleFonts.aBeeZee(
+                          textStyle: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 5),
@@ -169,9 +174,9 @@ class FavoritePlaceTile extends StatelessWidget {
                 onTap: () {
                   confirmRemove(context, favoritePlace);
                 },
-                child: const FaIcon(
+                child: FaIcon(
                   FontAwesomeIcons.trashCan,
-                  color: Colors.red,
+                  color: Colors.red.shade300,
                 ),
               ),
             ),

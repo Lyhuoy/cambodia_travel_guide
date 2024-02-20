@@ -48,7 +48,7 @@ class AuthPage extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.4,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/art116.jpeg'),
+                    image: AssetImage('assets/images/art1162.png'),
                     fit: BoxFit.cover,
                   ),
                 ),

@@ -11,15 +11,6 @@ class NearlyPlaceTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // CircleAvatar(
-        //   radius: 40.0,
-        //   backgroundImage: NetworkImage(nearlyPlace.image),
-        // ),
-        // const SizedBox(height: 10.0),
-        // Text(
-        //   nearlyPlace.name,
-        //   style: GoogleFonts.aBeeZee(fontSize: 14, fontWeight: FontWeight.bold),
-        // ),
         Container(
           decoration: BoxDecoration(
             color: Colors.white,

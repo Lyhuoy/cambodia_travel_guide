@@ -5,12 +5,12 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_guide/models/place_model.dart';
 import 'package:travel_guide/models/upcoming_event_model.dart';
-import 'package:travel_guide/pages/explore_page.dart';
 import 'package:travel_guide/provider/place_provider.dart';
 import 'package:travel_guide/themes/constants.dart';
 import 'package:travel_guide/widgets/category_tile.dart';
 import 'package:travel_guide/widgets/my_textfield.dart';
 import 'package:travel_guide/widgets/place_tile.dart';
+import 'package:travel_guide/widgets/top_recommendation_tile.dart';
 import 'package:travel_guide/widgets/upcoming_event_tile.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,9 +26,18 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final provider = Provider.of<TravelProvider>(context, listen: false);
-      provider.fetchPopularPlace();
-      provider.fetchRecommendedPlace();
-      provider.fetchUpcomingEvent();
+
+      if (!provider.isPopularPlaceLoading && provider.popularPlaces.isEmpty) {
+        provider.fetchPopularPlace();
+      }
+
+      if (!provider.isRecommendedPlaceLoading && provider.recommendedPlaces.isEmpty) {
+        provider.fetchRecommendedPlace();
+      }
+
+      if (!provider.isUpcomingEventLoading && provider.upcomingEvents.isEmpty) {
+        provider.fetchUpcomingEvent();
+      }
     });
   }
 
@@ -102,10 +111,15 @@ class PopularPlaceTitle extends StatelessWidget {
             'Popular Places',
             style: GoogleFonts.aBeeZee(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          Text(
-            'See All',
-            style: GoogleFonts.aBeeZee(
-              textStyle: TextStyle(color: Colors.grey[500], fontSize: 16, fontWeight: FontWeight.bold),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/see-all-popular-place');
+            },
+            child: Text(
+              'See All',
+              style: GoogleFonts.aBeeZee(
+                textStyle: TextStyle(color: Colors.grey[500], fontSize: 16, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ],
@@ -173,17 +187,16 @@ class ExploreCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Explore the world \nFind Your Adventure!',
-                  style: GoogleFonts.aBeeZee(
-                    textStyle: TextStyle(color: Colors.grey[700], fontSize: 17, fontWeight: FontWeight.bold),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.39,
+                  child: Text(
+                    'Explore the world Your Adventure!',
+                    style: TextStyle(color: Colors.grey[700], fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const SizedBox(height: 15.0),
                 GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/explore');
-                  },
+                  onTap: () {},
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     decoration: BoxDecoration(
@@ -203,12 +216,12 @@ class ExploreCard extends StatelessWidget {
               ],
             ),
             Container(
-              width: 160,
-              height: 160,
+              width: MediaQuery.of(context).size.width * 0.45,
+              height: MediaQuery.of(context).size.height * 0.2,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
                 image: const DecorationImage(
-                  image: AssetImage('assets/images/art89.jpeg'),
+                  image: AssetImage('assets/images/art572.png'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -259,44 +272,59 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Container(
+            padding: const EdgeInsets.all(15.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(50),
+            ),
+            child: const Icon(
+              FontAwesomeIcons.bars,
+              size: 20,
+            ),
+          ),
+          Row(
             children: [
+              Icon(
+                FontAwesomeIcons.locationDot,
+                color: primaryColor,
+                size: 18,
+              ),
+              const SizedBox(width: 5.0),
               Text(
-                'Hi, Group1👋',
-                style: GoogleFonts.aBeeZee(
-                  textStyle: const TextStyle(color: Colors.grey, fontSize: 18, fontWeight: FontWeight.bold),
+                "Phnom Penh, ",
+                style: TextStyle(
+                  color: primaryColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
-                'Lets go travel 🏕️',
-                style: GoogleFonts.aBeeZee(
-                  textStyle: TextStyle(color: Colors.grey[700], fontSize: 18, fontWeight: FontWeight.bold),
+              const Text(
+                'Cambodia',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
           Container(
-            width: 50,
-            height: 50,
+            width: 50.0,
+            height: 50.0,
+            padding: const EdgeInsets.all(15.0),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              border: Border.all(
-                color: Colors.grey,
-              ),
-              color: Colors.white,
-            ),
-            child: const Center(
-              child: FaIcon(
-                FontAwesomeIcons.bell,
-                size: 25.0,
+              borderRadius: BorderRadius.circular(50),
+              image: const DecorationImage(
+                image: AssetImage('assets/images/art101.jpeg'),
+                fit: BoxFit.cover,
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -316,8 +344,8 @@ class CategoryWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CategoryTile(
-            category: 'Nature',
-            icon: FontAwesomeIcons.tree,
+            category: 'Temple',
+            icon: FontAwesomeIcons.monument,
           ),
           CategoryTile(
             category: 'Beach',
@@ -353,10 +381,13 @@ class TopRecommendationTitle extends StatelessWidget {
             'Top Recommendations',
             style: GoogleFonts.aBeeZee(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          Text(
-            'See all',
-            style: GoogleFonts.aBeeZee(
-              textStyle: TextStyle(color: Colors.grey[500], fontSize: 16, fontWeight: FontWeight.bold),
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(context, '/see-all-popular-place'),
+            child: Text(
+              'See all',
+              style: GoogleFonts.aBeeZee(
+                textStyle: TextStyle(color: Colors.grey[500], fontSize: 16, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ],
@@ -390,6 +421,67 @@ class UpcomingEventWidget extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class TopPlaceRecommendationWidget extends StatelessWidget {
+  const TopPlaceRecommendationWidget({
+    super.key,
+    required this.places,
+  });
+
+  final List<Place> places;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 170.0,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: places.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: EdgeInsets.only(left: index == 0 ? 20 : 12.0),
+            child: Row(
+              children: [
+                TopRecommendationTile(topRecommendationPlace: places[index]),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class UpcomingEventTitle extends StatelessWidget {
+  const UpcomingEventTitle({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Upcoming Events',
+            style: GoogleFonts.aBeeZee(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(context, '/see-all-upcoming-event'),
+            child: Text(
+              'See all',
+              style: GoogleFonts.aBeeZee(
+                textStyle: TextStyle(color: Colors.grey[500], fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

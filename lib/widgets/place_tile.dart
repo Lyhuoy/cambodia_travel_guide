@@ -76,7 +76,7 @@ class PlaceTile extends StatelessWidget {
                                   },
                                   icon: Icon(
                                     placeProvider.isFavorite(place) ? Icons.favorite : Icons.favorite_border,
-                                    color: placeProvider.isFavorite(place) ? Colors.red : Colors.white,
+                                    color: Colors.white,
                                     size: 25,
                                   ),
                                 ),
@@ -100,12 +100,15 @@ class PlaceTile extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          place.name,
-                          overflow: TextOverflow.fade,
-                          maxLines: 1,
-                          style: GoogleFonts.aBeeZee(
-                            textStyle: TextStyle(color: Colors.grey[700], fontSize: 16, fontWeight: FontWeight.bold),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: Text(
+                            place.name,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: GoogleFonts.aBeeZee(
+                              textStyle: TextStyle(color: Colors.grey[700], fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
                         Row(

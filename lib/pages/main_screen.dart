@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:travel_guide/pages/explore_page.dart';
 import 'package:travel_guide/pages/fovorite_page.dart';
 import 'package:travel_guide/pages/home_page.dart';
 import 'package:travel_guide/pages/profile_page.dart';
@@ -16,7 +15,6 @@ class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
   final List<Widget> _children = const [
     HomePage(),
-    ExplorePage(),
     FavoritePage(),
     ProfilePage(),
   ];
@@ -50,13 +48,6 @@ class _MainPageState extends State<MainPage> {
                 size: 30,
               ),
               label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.explore,
-                size: 30,
-              ),
-              label: 'Explore',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.bookmark, size: 30),
